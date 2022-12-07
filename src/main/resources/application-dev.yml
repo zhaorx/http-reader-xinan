@@ -2,10 +2,14 @@ spring:
   main:
     web-application-type: none
 interval: 60000
+login-url: http://10.89.6.35:11210/webapi/setUserInfo
+pspaceUsername: smartworx
+pspacePassword: smartworx
+thirdAppId: SCSJPT
+licenseCode: nfxZYtVZ
+tags: C210249FI0000501A,C210249FI0000502A,C210249FI0000503A,C210249PI0000501A,C210249PI0000502A,C210249PI0000503A
+
+data-url: http://10.89.6.35:11210/webapi/PSpaceQuery.ashx
 #data-url: http://127.0.0.1:6666/mock/data
-data-url: http://10.79.84.183:9001/api/GetTagLastValue
 push-url: http://localhost:6666/gas/add
 region: xinan
-UserAuthorityCode: A8K2ILP1-37BB-4F5E-B593-BT09KK4K2K1R
-points: ZTYXC190LNJQZ2_LN_TOTALALL;ZTYXC190LNJQZ1_PT9107
-unit-map: '{"ZTYXC190LNJQZ1_PT9107":"MPa","ZTYXC190LNJQZ2_LN_TOTALALL":"Nm3/h"}'

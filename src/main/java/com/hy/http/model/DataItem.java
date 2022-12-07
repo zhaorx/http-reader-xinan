@@ -1,80 +1,51 @@
 package com.hy.http.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 public class DataItem {
-    public String TagName;
-    public String ClientHost;
-    public String Confidence;
-    public Double Value;
-    public Date TimeStamp;
-    public String HostName;
-    public String Units;
-    public String Tolerance;
+    public String UNIT;
+    public String TAGDESC;
+    public String tag;
+    public Date time;
+    public Double value;
 
-    public String getTagName() {
-        return TagName;
+    public String getUNIT() {
+        return UNIT;
     }
 
-    public void setTagName(String tagName) {
-        TagName = tagName;
+    public void setUNIT(String UNIT) {
+        this.UNIT = UNIT;
     }
 
-    public String getClientHost() {
-        return ClientHost;
+    public String getTAGDESC() {
+        return TAGDESC;
     }
 
-    public void setClientHost(String clientHost) {
-        ClientHost = clientHost;
+    public void setTAGDESC(String TAGDESC) {
+        this.TAGDESC = TAGDESC;
     }
 
-    public String getConfidence() {
-        return Confidence;
+    public String getTag() {
+        return tag;
     }
 
-    public void setConfidence(String confidence) {
-        Confidence = confidence;
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public Double getValue() {
-        return Value;
+        return value;
     }
 
     public void setValue(Double value) {
-        Value = value;
-    }
-
-    public Date getTimeStamp() {
-        return TimeStamp;
-    }
-
-    public void setTimeStamp(Date timeStamp) {
-        TimeStamp = timeStamp;
-    }
-
-    public String getHostName() {
-        return HostName;
-    }
-
-    public void setHostName(String hostName) {
-        HostName = hostName;
-    }
-
-    public String getUnits() {
-        return Units;
-    }
-
-    public void setUnits(String units) {
-        Units = units;
-    }
-
-    public String getTolerance() {
-        return Tolerance;
-    }
-
-    public void setTolerance(String tolerance) {
-        Tolerance = tolerance;
+        this.value = value;
     }
 }
