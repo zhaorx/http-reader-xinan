@@ -1,12 +1,17 @@
 package com.hy.http.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class DataItem {
     public String UNIT;
     public String TAGDESC;
     public String tag;
-    public Date time;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date time;
+
     public Double value;
 
     public String getUNIT() {

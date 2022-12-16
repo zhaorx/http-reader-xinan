@@ -39,16 +39,25 @@ public class SchedulerTask {
     @Value("${region}")
     private String region;
     @Value("${tags:}")
-    private String[] tags;
+    private String tags;
     private String sep = "_";
+
+    private boolean isLogin = false;
 
     @Scheduled(fixedDelayString = "${interval}")
     public void transferSchedule() {
         logger.info("starting transfer...");
-        Boolean logined = this.login();
-        if (!logined) {
+
+        if (!isLogin) {
+            isLogin = this.login();
+            logger.info("isLogin：" + isLogin);
+        }
+
+        if (!isLogin) {
             return;
         }
+
+//        logger.info("getRecentData...");
 
         List<DataItem> list = this.getRecentData();
         Gas g = new Gas();
@@ -62,7 +71,8 @@ public class SchedulerTask {
             DataItem item = list.get(i);
 
             g.setTs(item.getTime());
-            g.setPoint(region + sep + item.getTag());
+            String tag = item.getTag().substring(1, item.getTag().length());
+            g.setPoint(region + sep + tag);
             g.setPname(region + sep + item.getTAGDESC());
             g.setValue(item.getValue());
             g.setUnit(item.getUNIT());
@@ -86,8 +96,10 @@ public class SchedulerTask {
         URI uri = builder.build().encode().toUri();
         ResponseEntity<LoginResult> response = restTemplate.exchange(uri, HttpMethod.POST, request, LoginResult.class);
         LoginResult res = response.getBody();
+        logger.info("接口初始化：" + res.getMessage());
+        boolean flag = (res != null && "0".equals(res.getCode()));
 
-        return res != null && res.getCode() == "0";
+        return flag;
     }
 
     public List<DataItem> getRecentData() {
