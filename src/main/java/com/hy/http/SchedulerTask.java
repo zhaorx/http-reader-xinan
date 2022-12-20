@@ -24,6 +24,8 @@ public class SchedulerTask {
     private static final Logger logger = LoggerFactory.getLogger(SchedulerTask.class);
     @Value("${push-url}")
     private String pushUrl;
+    @Value("${push-multi-url}")
+    private String pushMultiUrl;
     @Value("${login-url}")
     private String loginUrl;
     @Value("${data-url}")
@@ -43,6 +45,7 @@ public class SchedulerTask {
     private String sep = "_";
 
     private boolean isLogin = false;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Scheduled(fixedDelayString = "${interval}")
     public void transferSchedule() {
@@ -61,25 +64,28 @@ public class SchedulerTask {
 
         List<DataItem> list = this.getRecentData();
         Gas g = new Gas();
+        g.setTs(sdf.format(new Date()));
         g.setRegion(region);
 
         if (list == null) {
             return;
         }
 
+        List<Gas> addList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             DataItem item = list.get(i);
 
-            g.setTs(item.getTime());
             String tag = item.getTag().substring(1, item.getTag().length());
             g.setPoint(region + sep + tag);
             g.setPname(region + sep + item.getTAGDESC());
             g.setValue(item.getValue());
             g.setUnit(item.getUNIT());
 
-            WritterResult result = this.addTaos(g);
-            logger.info(result.getMessage());
+            addList.add(g);
         }
+
+        WritterResult result = this.addMultiTaos(addList);
+        logger.info(result.getMessage());
     }
 
 
@@ -115,9 +121,23 @@ public class SchedulerTask {
         URI uri = builder.build().encode().toUri();
         ResponseEntity<ArrayList<DataItem>> response = restTemplate.exchange(uri, HttpMethod.POST, null, new ParameterizedTypeReference<ArrayList<DataItem>>() {
         });
+
         ArrayList<DataItem> list = response.getBody();
 
         return list;
+    }
+
+    public WritterResult addMultiTaos(List<Gas> list) {
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("gasList", list);
+
+        HttpEntity<Map<String, Object>> r = new HttpEntity<>(requestBody, requestHeaders);
+        WritterResult result = restTemplate.postForObject(pushMultiUrl, r, WritterResult.class);
+
+        return result;
     }
 
     private WritterResult addTaos(Gas data) {
