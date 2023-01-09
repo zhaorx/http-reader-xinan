@@ -73,6 +73,7 @@ public class SchedulerTask {
         List<Gas> addList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             DataItem item = list.get(i);
+            logger.debug("######get_data:" + item.toString());
             Gas g = new Gas();
             g.setTs(dateStr);
             g.setRegion(region);

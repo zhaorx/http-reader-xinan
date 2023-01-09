@@ -53,4 +53,15 @@ public class DataItem {
     public void setValue(Double value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "DataItem{" +
+                "UNIT='" + UNIT + '\'' +
+                ", TAGDESC='" + TAGDESC + '\'' +
+                ", tag='" + tag + '\'' +
+                ", time=" + time +
+                ", value=" + value +
+                '}';
+    }
 }
