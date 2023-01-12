@@ -47,6 +47,13 @@ public class SchedulerTask {
     private boolean isLogin = false;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    @Scheduled(fixedDelayString = "${loginInterval}")
+    public void loginSchedule() {
+        logger.info("login...");
+        isLogin = this.login();
+        logger.info("isLogin：" + isLogin);
+    }
+
     @Scheduled(fixedDelayString = "${interval}")
     public void transferSchedule() {
         logger.info("starting transfer...");

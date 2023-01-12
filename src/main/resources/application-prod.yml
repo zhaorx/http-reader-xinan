@@ -2,6 +2,7 @@ spring:
   main:
     web-application-type: none
 interval: 60000
+loginInterval: 86400000
 login-url: http://10.89.6.35:11210/webapi/setUserInfo
 licenseCode: WuHWZOQT # 125
 thirdAppId: JTGSYYZXPT
