@@ -44,30 +44,13 @@ public class SchedulerTask {
     private String tags;
     private String sep = "_";
 
-    private boolean isLogin = false;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    @Scheduled(fixedDelayString = "${loginInterval}")
-    public void loginSchedule() {
-        logger.info("login...");
-        isLogin = this.login();
-        logger.info("isLogin：" + isLogin);
-    }
 
     @Scheduled(fixedDelayString = "${interval}")
     public void transferSchedule() {
         logger.info("starting transfer...");
-
-        if (!isLogin) {
-            isLogin = this.login();
-            logger.info("isLogin：" + isLogin);
-        }
-
-        if (!isLogin) {
-            return;
-        }
-
-//        logger.info("getRecentData...");
+        // 调用login 初始化接口会话
+        this.login();
 
         List<DataItem> list = this.getRecentData();
 
